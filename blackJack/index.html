@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="blackJack.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="row">
+
+        <div class='item'>
+
+            <div class='par'>
+                Необходимо написать игру в 21 с одним виртуальным оппонентом (далее банкир).
+                Правила:
+                - в колоде 36 карт (стандартная колода)
+                - колода перемешана случайным образом
+                - каждому игроку сдается по одной карте
+                - игроки не видят карт друг друга
+                - игроки берут карты из колоды по одной, по очереди
+                - первый ход у пользователя
+                - игрок может продолжить игру, может остановить игру
+                - в случае если игрок продолжает играть ему сдается карта из колоды
+                - после чего банкир принимает решение брать карту или нет
+                - банкир останавливает добор карт в случае если у него в руке 15 и более очков
+                - в случае остановки игры игроком, банкир может принять решение брать еще карты или нет,
+                после чего карты вскрываются
+                - подсчитываюся очки, которые набрал каждый из игроков. согласно таблице стоимости карт
+                (смотри ниже), и по итогу определяется победитель
+                - при наборе 21 очка игрок автоматически выигрывает, то есть как только один из игроков
+                берет карту и сумма его очков равна 21, игра прекращается и объявляется победитель
+                - при наборе более чем 21 очка автоматически проигрывает (перебор), то есть как только
+                один из игроков берет карту и сумма его очков больше 21, игра прекращается и объявляется
+                победитель
+                - то же самое касается банкира
+                - задача обоих игроков набрать максимальное количество очков, но не более 21
+                Таблица стоимости карт:
+
+                <table>
+                    <tr>
+                        <th>Карта</th>
+                        <th>Стоимость</th>
+                    </tr>
+                    <tr>
+                        <td>Туз</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td>Король</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Дама</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Валет</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>10 … 6</td>
+                        <td>По номиналу</td>
+                    </tr>
+                </table><br>
+            </div><br>
+
+        </div>
+
+        <div class='item'>
+
+            <div class='table'>
+
+                <div class='flex-container' id='pl'></div><br><br>
+                <!------------------------>
+                <div class='center'>
+
+                    <div class='coloda flex-containerColumn' id='coloda'>
+
+                        <button onclick='startGame()' class='button'>тасовать</button><br>
+
+                        <button onclick='takeCard()' class='button' id='btn1'></button><br>
+
+                        <button onclick='pass()' class='button' id='btn2'></button>
+
+                    </div>
+
+                    <div class='scoreFlexColumn'>
+                        <div class='scoreFlex'>
+                            <div class='pre'>ИГРОК:</div>
+                            <div class='score' id='score'></div>
+                        </div>
+
+                        <div class='scoreFlex'>
+                            <div class='pre'>РЕЗУЛЬТАТ: </div>
+                            <div class='score' id='result'></div>
+                        </div>
+
+                        <div class='scoreFlex'>
+                            <div class='pre'>БАНКИР:</div>
+                            <div class='score' id='scoreBank'></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class='flex-container' id='bank'></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="blackJack.js"></script>
+
+</body>
+
+</html>

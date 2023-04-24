@@ -1,18 +1,42 @@
-function Horse(runAway, name = 'Anonim') {
+function Horse(run, name = 'Anonim') {
 
   _mileage = 0;
+  _totalMileage = 0;
   this.name = name;
-  this.runAway = runAway;
-  this.getMileage = function (argument) {
-    _mileage = _mileage + this.runAway;
-    return _mileage;
+
+  let mileage = 0;
+
+  this.run = function() {
+    
+    mileage = mileage + run;
+    _totalMileage = _totalMileage + run;
+    return run;
   };
+
+  this.getMileage = function() {
+    return mileage;
+  };
+
+  this.getTotalMileage = function() {
+    return _totalMileage;
+  }
 
 }
 
-let horse = new Horse(7);
+let horseAnonim = new Horse(7);
+let horseBlack = new Horse(3, 'Black');
+let horseWhite = new Horse(5, 'White');
 
-console.log(`Имя - ${horse.name}`)
-console.log(`Бежать - ${horse.runAway}`)
-console.log(`Приватное свойство "Пробег" - ${horse._mileage}`)
-console.log(`Получить Пробег - ${horse.getMileage()}`)
+horseAnonim.run();
+horseAnonim.run();
+horseBlack.run();
+horseBlack.run();
+horseWhite.run();
+
+console.log(`Пробег "${horseAnonim.name}" - ${horseAnonim.getMileage()}`)
+console.log(`Пробег "${horseBlack.name}" - ${horseBlack.getMileage()}`)
+console.log(`Пробег "${horseWhite.name}" - ${horseWhite.getMileage()}`)
+
+console.log(`Общий пробег - ${horseAnonim.getTotalMileage()}`)
+console.log(`Общий пробег - ${horseBlack.getTotalMileage()}`)
+console.log(`Общий пробег - ${horseWhite.getTotalMileage()}`)

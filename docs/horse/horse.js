@@ -1,20 +1,20 @@
-function Horse(distance, name = 'Anonim') {
+function Horse(distanceLength, name = 'Anonim') {
 
   _mileage = 0;
   this.name = name;
-  this.distance = 0;
+  this.mileageLength = 0;
   this.totalMileage = 0;
 
   this.run = function() {
 
-    this.distance = this.distance + distance;
-    _mileage = _mileage + distance;
+    this.mileageLength = this.mileageLength + distanceLength;
+    _mileage = _mileage + distanceLength;
     this.totalMileage = _mileage;
 
   };
 
   this.getMileage = function() {
-    return this.distance;
+    return this.mileageLength;
   };
 
   this.actualTotalMileage = function() {

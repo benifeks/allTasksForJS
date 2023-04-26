@@ -1,48 +1,31 @@
-function Horse(distanceLength, name = 'Anonim') {
+function Horse(name = 'Anonim') {
 
-  _mileage = 0;
+  _mileage = 0; /*-> станет св-вом глобального объекта */
+  let mileage = 0; /* -> сохранит контекст, как локальная переменная */
+  /* this.mileage -> станет св-вом объекта "this" функции*/
   this.name = name;
-  this.mileageLength = 0;
   this.totalMileage = 0;
 
-  this.run = function() {
-
-    this.mileageLength = this.mileageLength + distanceLength;
-    _mileage = _mileage + distanceLength;
-    this.totalMileage = _mileage;
-
+  this.run = function (kilometers) {
+    mileage = mileage + kilometers;
   };
 
-  this.getMileage = function() {
-    return this.mileageLength;
+  this.getMileage = function () {
+    return mileage;
   };
-
-  this.actualTotalMileage = function() {
-    return _mileage;
-  }
 
 }
 
-let horseAnonim = new Horse(7);
-let horseBlack = new Horse(3, 'Black');
-let horseWhite = new Horse(5, 'White');
+let horseAnonim = new Horse();
+let horseBlack = new Horse('Black');
+let horseWhite = new Horse('White');
 
-horseAnonim.run();
-horseAnonim.run();
-horseBlack.run();
-horseBlack.run();
-horseWhite.run();
+horseAnonim.run(7);
+horseAnonim.run(3);
+horseBlack.run(3);
+horseBlack.run(7);
+horseWhite.run(5);
 
-console.log(`Пробег ${horseAnonim.name} - ${horseAnonim.getMileage()}`)
-console.log(`Пробег ${horseBlack.name} - ${horseBlack.getMileage()}`)
-console.log(`Пробег ${horseWhite.name} - ${horseWhite.getMileage()}`)
-console.log(`---------`)
-
-console.log(`Общий пробег - ${horseAnonim.totalMileage}`)
-console.log(`Общий пробег - ${horseBlack.totalMileage}`)
-console.log(`Общий пробег - ${horseWhite.totalMileage}`)
-console.log(`---------`)
-
-console.log(`Актуальный общий пробег - ${horseAnonim.actualTotalMileage()}`)
-console.log(`Актуальный общий пробег - ${horseBlack.actualTotalMileage()}`)
-console.log(`Актуальный общий пробег- ${horseWhite.actualTotalMileage()}`)
+console.log(`Пробег ${horseAnonim.name} - ${horseAnonim.getMileage()}`);
+console.log(`Пробег ${horseBlack.name} - ${horseBlack.getMileage()}`);
+console.log(`Пробег ${horseWhite.name} - ${horseWhite.getMileage()}`);

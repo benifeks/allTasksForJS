@@ -1,4 +1,4 @@
-function getDeckData() {
+async function getDeckData() {
 
   const promise1 = new Promise((resolve, reject) => {
     let request = new XMLHttpRequest();
@@ -15,9 +15,13 @@ function getDeckData() {
         resolve(receivedData);
         return;
       }
-      console.log('err', request.responseText);
+
+      document.querySelector('#body').innerHTML = 'ОШИБКА ПРИ ПОЛУЧЕНИИ ДАННЫХ...';
+      console.log('ОШИБКА ПРИ ПОЛУЧЕНИИ ДАННЫХ', request.responseText);
     });
-  }).then((receivedData) => {
+  });
+
+  promise1.then((receivedData) => {
 
     let dataTable = receivedData.map((elem, i) => {
       return {
@@ -30,7 +34,7 @@ function getDeckData() {
         phone: ' - ',
         company: receivedData[i].profile.company
 
-      };
+      }
 
     });
 
@@ -40,21 +44,28 @@ function getDeckData() {
 
     table(dataTable);
 
+  }).then(() => {
+
+    let table = document.getElementById('table');
+
+    sortTableByColumn(table);
+
   }).catch(() => {
 
-    console.log('Произошла ошибка...');
+    document.querySelector('#body').innerHTML = 'ОШИБКА ПРИ ОБРАБОТКЕ ДАННЫХ...';
+    console.log('ОШИБКА ПРИ ОБРАБОТКЕ ДАННЫХ...');
 
   }).finally(() => {
 
     console.log('finally');
 
   });
-
 }
 
 function table(arg) {
 
-  let table = document.getElementById('table');
+  let table = document.getElementById('body');
+  table.textContent = '';
 
   arg.forEach((user) => {
 
@@ -90,7 +101,92 @@ function table(arg) {
 
     table.append(tr);
 
-  });
+  })
 
 }
 
+function sortTableByColumn(htmlTableObject) {
+
+  function htmlSort(arg = '') {
+
+    let divSort = document.querySelector('#divSort');
+    divSort.textContent = '';
+    divSort.textContent = arg;
+
+  }
+
+  htmlSort('кликните по названию колонки для сортировки');
+
+  let head = htmlTableObject.tHead;
+  head.style.backgroundColor = '#00BFFF';
+  head.setAttribute("title", "кликните для сортировки")
+
+  let body = htmlTableObject.tBodies[0];
+
+  let columnMarks = head.children[0].children;
+
+  let rows = body.children;
+
+  let position;
+
+  let trigger = true;
+
+  htmlTableObject.addEventListener('click', handler1);
+
+  function handler1(event) {
+
+    let t = event.target;
+    if (t.parentNode === columnMarks[0].parentNode) {
+      position = [...columnMarks] 
+        .findIndex(element => element == t);
+      handler2(position);
+    }
+  }
+
+  function handler2(currentPosition) {
+    if (trigger) {
+      trigger = false;
+      body.replaceChildren(...sortBodyAsc(currentPosition));
+    } else {
+      trigger = true;
+      body.replaceChildren(...sortBodyDesc(currentPosition));
+    }
+  }
+
+  function sortBodyAsc(position) {
+    htmlSort('сортированно по возрастанию');
+    return [...rows].sort((a, b) => {
+      let result;
+      let stringA = a.children[position].innerText;
+      let stringB = b.children[position].innerText;
+      let numberA = +a.children[position].innerText;
+      let numberB = +b.children[position].innerText;
+
+      if (numberA) {
+        result = numberA < numberB ? -1 : 1;
+      } else {
+        result = stringA < stringB ? -1 : 1;
+      }
+      return result;
+    });
+  }
+
+  function sortBodyDesc(position) {
+    htmlSort('сортированно по убыванию');
+    return [...rows].sort((a, b) => {
+      let result;
+      let stringA = a.children[position].innerText;
+      let stringB = b.children[position].innerText;
+      let numberA = +a.children[position].innerText;
+      let numberB = +b.children[position].innerText;
+
+      if (numberA) {
+        result = numberA > numberB ? -1 : 1;
+      } else {
+        result = stringA > stringB ? -1 : 1;
+      }
+      return result;
+    });
+  }
+
+}

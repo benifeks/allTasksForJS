@@ -41,7 +41,7 @@ function countScores(cardsArray) {
 function getDeckData() {
 
   let request = new XMLHttpRequest();
-  request.open('GET', 'current.json');
+  request.open('GET', 'blackJack/current.json');
   request.setRequestHeader('Content-type', 'application/json; charset=UTF-8');
   request.send();
   request.addEventListener('load', () => {

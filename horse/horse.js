@@ -1,20 +1,15 @@
 function Horse(name = 'Anonim') {
 
-  _mileage = new Set();
-  name = {
-    nameHorse: name,
-    mileage: 0
-  };
-  this.name = name.nameHorse;
+  this.name = name;
+  let _mileage = 0;
 
   this.run = function(kilometers = 0) {
-
-    _mileage.add(name);
-    name.mileage = name.mileage + kilometers;
+    _mileage = _mileage + kilometers;
+    return _mileage;
   };
 
   this.getMileage = function() {
-    return name.mileage;
+    return _mileage;
   };
 
 }
@@ -22,6 +17,7 @@ function Horse(name = 'Anonim') {
 let horseAnonim = new Horse();
 let horseBlack = new Horse('Black');
 let horseWhite = new Horse('White');
+
 
 console.log(`Пробег ${horseAnonim.name} - ${horseAnonim.getMileage()}`)
 console.log(`Пробег ${horseBlack.name} - ${horseBlack.getMileage()}`)
@@ -50,3 +46,5 @@ console.log(`Пробег ${horseAnonim.name} - ${horseAnonim.getMileage()}`)
 console.log(`Пробег ${horseBlack.name} - ${horseBlack.getMileage()}`)
 console.log(`Пробег ${horseWhite.name} - ${horseWhite.getMileage()}`)
 console.log(`Пробег ${horseGreen.name} - ${horseGreen.getMileage()}`)
+
+console.log(`Пробег ${horseGreen.name} - ${horseGreen._mileage}`)

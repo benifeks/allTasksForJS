@@ -43,12 +43,10 @@ async function getDeckData() {
   }).then((dataTable) => {
 
     table(dataTable);
+    htmlSort(`Выберите колонку для сортировки...`);
+    filterTable(dataTable);
 
-  }).then(() => {
-
-    let table = document.getElementById('table');
-
-    sortTableByColumn(table);
+    return dataTable;
 
   }).catch(() => {
 
@@ -105,88 +103,180 @@ function table(arg) {
 
 }
 
-function sortTableByColumn(htmlTableObject) {
+function sortTableByColumn(data) {
 
-  function htmlSort(arg = '') {
+  let btnAll = document.querySelectorAll('.btn');
 
-    let divSort = document.querySelector('#divSort');
-    divSort.textContent = '';
-    divSort.textContent = arg;
+  btnAll.forEach((button) => {
 
-  }
+    button.addEventListener("click", () => {
 
-  htmlSort('кликните по названию колонки для сортировки');
+      sortTable(button.name, data);
 
-  let head = htmlTableObject.tHead;
-  head.style.backgroundColor = '#00BFFF';
-  head.setAttribute("title", "кликните для сортировки")
+      htmlSort(`Сортированно по ${button.value}`)
 
-  let body = htmlTableObject.tBodies[0];
+    });
 
-  let columnMarks = head.children[0].children;
+  });
 
-  let rows = body.children;
+}
 
-  let position;
+function sortTable(argument, data) {
 
-  let trigger = true;
+  let result = data.sort((a, b) => {
 
-  htmlTableObject.addEventListener('click', handler1);
-
-  function handler1(event) {
-
-    let t = event.target;
-    if (t.parentNode === columnMarks[0].parentNode) {
-      position = [...columnMarks] 
-        .findIndex(element => element == t);
-      handler2(position);
+    if (a[argument] < b[argument]) {
+      return -1;
     }
-  }
 
-  function handler2(currentPosition) {
-    if (trigger) {
-      trigger = false;
-      body.replaceChildren(...sortBodyAsc(currentPosition));
+  })
+
+  table(result);
+
+}
+
+function htmlSort(arg = '') {
+
+  let divSort = document.querySelector('#divSort');
+  divSort.textContent = '';
+  divSort.textContent = arg;
+
+}
+///////////////////////////////////////////////////////////
+
+function createOptions(id, data, text, name = 0) {
+
+  let select = document.getElementById(`${id}`);
+  select.multiple = true;
+
+  data.forEach((element, i) => {
+
+    let nameItem;
+    if (name === 0) {
+      nameItem = '';
     } else {
-      trigger = true;
-      body.replaceChildren(...sortBodyDesc(currentPosition));
+      nameItem = element[name];
     }
-  }
+    let optionsSelect = document.createElement('option');
+    optionsSelect.text = `${nameItem} ${element[text]}`;
+    optionsSelect.value = JSON.stringify(element);
+    select.append(optionsSelect);
 
-  function sortBodyAsc(position) {
-    htmlSort('сортированно по ВОЗРАСТАНИЮ');
-    return [...rows].sort((a, b) => {
-      let result;
-      let stringA = a.children[position].innerText;
-      let stringB = b.children[position].innerText;
-      let numberA = +a.children[position].innerText;
-      let numberB = +b.children[position].innerText;
+  });
 
-      if (numberA) {
-        result = numberA < numberB ? -1 : 1;
-      } else {
-        result = stringA < stringB ? -1 : 1;
+}
+
+let buttonAge = document.getElementById('buttonAge');
+let buttonCompany = document.getElementById('buttonCompany');
+let buttonUpdate = document.getElementById('buttonUpdate');
+
+function filterTable(data) {
+
+  let result;
+
+  let collection = new Map();
+
+  let selectAge = document.getElementById('selectAge');
+  let selectedOptionsAge = selectAge.selectedOptions;
+
+  let selectCompany = document.getElementById('selectCompany');
+  let selectedOptionsCompany = selectCompany.selectedOptions;
+
+  createOptions('selectAge', data, 'age', 'firstName');
+  createOptions('selectCompany', data, 'company');
+
+  buttonAge.onclick = function () {
+
+    result = [];
+    collection.clear();
+
+    for (let i = 0; i < selectedOptionsAge.length; i++) {
+
+      let valueOption = selectedOptionsAge[i].value;
+      if (valueOption === "age") {
+        break;
       }
-      return result;
-    });
-  }
 
-  function sortBodyDesc(position) {
-    htmlSort('сортированно по УБЫВАНИЮ');
-    return [...rows].sort((a, b) => {
-      let result;
-      let stringA = a.children[position].innerText;
-      let stringB = b.children[position].innerText;
-      let numberA = +a.children[position].innerText;
-      let numberB = +b.children[position].innerText;
+      collection.set(JSON.parse(valueOption).company, JSON.parse(valueOption));
 
-      if (numberA) {
-        result = numberA > numberB ? -1 : 1;
-      } else {
-        result = stringA > stringB ? -1 : 1;
+    }
+
+    collection.forEach(value => result.push(value));
+
+    if (result.length === 0) {
+
+      return;
+
+    } else {
+
+      table(collection);
+
+      selectAge.replaceChildren();
+      selectAge.innerHTML = `<option selected disabled>age</option>`;
+
+      if (buttonCompany.disabled === false) {
+        selectCompany.replaceChildren();
+        selectCompany.innerHTML = `<option selected disabled>company</option>`;
+        createOptions('selectCompany', collection, 'company');
       }
-      return result;
-    });
+
+      buttonAge.disabled = true;
+      sortTableByColumn(result);
+    }
+
   }
+
+  buttonCompany.onclick = function () {
+
+    result = [];
+    collection.clear();
+
+    for (let i = 0; i < selectedOptionsCompany.length; i++) {
+
+      let valueOption = selectedOptionsCompany[i].value;
+      if (valueOption === "company") {
+        break;
+      }
+
+      collection.set(JSON.parse(valueOption).company, JSON.parse(valueOption));
+
+    }
+
+    collection.forEach(value => result.push(value));
+
+    if (result.length === 0) {
+
+      return;
+
+    } else {
+
+      table(collection);
+
+      selectCompany.replaceChildren();
+      selectCompany.innerHTML = `<option selected disabled>company</option>`;
+
+      if (buttonAge.disabled === false) {
+        selectAge.replaceChildren();
+        selectAge.innerHTML = `<option selected disabled>age</option>`;
+        createOptions('selectAge', collection, 'age', 'firstName');
+      }
+
+      buttonCompany.disabled = true;
+      sortTableByColumn(result);
+
+    }
+
+  }
+
+  buttonUpdate.onclick = function () {
+
+    buttonAge.disabled = false;
+    buttonCompany.disabled = false;
+    table(data);
+    filterTable(data);
+    sortTableByColumn(data);
+
+  }
+  sortTableByColumn(data);
 
 }

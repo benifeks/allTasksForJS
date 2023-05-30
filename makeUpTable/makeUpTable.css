@@ -1,7 +1,7 @@
 table {
     width: 50%;
     border-collapse: collapse;
-    border-spacing: 0
+    border-spacing: 0;
 }
 
 table,
@@ -19,4 +19,15 @@ th {
 
 th {
     background-color: #7accee !important;
+}
+
+.btn {
+    background-color: #87CEEB;
+    border: 1px solid #595959;
+
+    height: 17px;
+}
+
+p {
+    margin-bottom: 1px;
 }

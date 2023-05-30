@@ -3,55 +3,101 @@
 
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="makeUpTable.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="makeUpTable.css">
+  <title>Document</title>
 </head>
 
 <body>
 
-    <div>
-        1. Сверстать таблицу. Вида:<br>
-        First name Last name Sex Age Email Phone
-        number
-        Company<br>
-        2. Получить данные по ссылке:<br>
-        https://next.json-generator.com/api/json/get/E1HDvnx1I<br>
-        3. Заполнить таблицу информацией из полученных данных<br>
-        4. Добавить возможность сортировать таблицу по любой из колонок<br>
-        5. Добавить возмоджость фильтрации таблицы по возрасту, полу, компании, несколько
-        фильтров должны работать вместе<br>
-        6. Добавить поиск по имени, фамилии, email (один поиск который ищет по трем полям),
-        поиск должен взаимодействовать с фильтрами<br>
-    </div>
-    <br>
-    <br>
-    <button onclick='getDeckData()'>получить и заполнить</button><br><br>
-<div id='divSort'></div><br>
-<table id='table'>
+  <button onclick='getDeckData()'>получить и заполнить</button><br><br>
 
-  <thead>
+  <div id='divFilter'>Фильтровать:</div><br>
 
-    <tr>
-      <td>First name</td>
-      <td>Last name</td>
-      <td>Sex</td>
-      <td>Age</td>
-      <td>Email</td>
-      <td>Phone</td>
-      <td>Company</td>
-    </tr>
+  <select id='selectAge'>
+    <option selected disabled>age</option>
+  </select>
 
-  </thead>
-  <tbody id='body'>
+  <button id='buttonAge'>применить</button>
 
-  </tbody>
-</table>
+  <select id='selectCompany'>
+    <option selected disabled>company</option>
+  </select>
+
+  <button id='buttonCompany'>применить</button>
+
+  <button id='buttonUpdate'>обновить</button>
+
+  <br><br>
+
+  <div id='divSort'></div><br>
+  <table id='table'>
+
+    <thead>
+
+      <tr>
+
+        <td>
+          First name
+          <p>
+            <button class='btn' name='firstName' value='имени.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Last name
+          <p>
+            <button class='btn' name='lastName' value='фамилии.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Sex
+          <p>
+            <button class='btn' name='sex' value='полу.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Age
+          <p>
+            <button class='btn' name='age' value='возрасту.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Email
+          <p>
+            <button class='btn' name='email' value='email.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Phone
+          <p>
+            <button class='btn' name='phone' value='телефону.'>сортировать</button>
+          </p>
+        </td>
+
+        <td>
+          Company
+          <p>
+            <button class='btn' name='company' value='компании.'>сортировать</button>
+          </p>
+        </td>
+
+      </tr>
+
+    </thead>
+    <tbody id='body'>
+
+    </tbody>
+  </table>
 
 
-    <script src="makeUpTable.js"></script>
+  <script src="makeUpTable.js"></script>
 </body>
 
 </html>

@@ -12,89 +12,168 @@
 
 <body>
 
-  <button onclick='getDeckData()'>получить и заполнить</button><br><br>
+  <div class='taskBody'>
 
-  <div id='divFilter'>Фильтровать:</div><br>
+    <button id='receiveAndComplete' class='complete'>receive and complete</button><br>
 
-  <select id='selectAge'>
-    <option selected disabled>age</option>
-  </select>
+    <div class='overallContainer'>
 
-  <button id='buttonAge'>применить</button>
+      <div class='containerFilter'>
 
-  <select id='selectCompany'>
-    <option selected disabled>company</option>
-  </select>
+        <h4>Filter:</h4>
 
-  <button id='buttonCompany'>применить</button>
+        <div class='selectContainer'>
 
-  <button id='buttonUpdate'>обновить</button>
+          <select id='selectAge' multiple class='selectItem'>
+            <option selected disabled name='selectAge' value='true'>age</option>
+          </select>
 
-  <br><br>
+          <select id='selectCompany' multiple class='selectItem'>
+            <option selected disabled name='selectCompany' value='true'>company</option>
+          </select>
 
-  <div id='divSort'></div><br>
-  <table id='table'>
+        </div>
 
-    <thead>
+      </div>
 
-      <tr>
+      <div class='containerFilter'>
 
-        <td>
-          First name
+        <h4>Search:</h4>
+
+        <div class='searchContainer' boldGreenFont>
+
+          контейнер для
+
+          <P>
+            <font color='DeepSkyBlue'>
+              <i><strong>"SEARCH"</strong></i>
+            </font>
+          </P>
+
+          или ещё чего-то...
+
+        </div>
+
+      </div>
+
+      <div class='containerFilter'>
+
+        <h4>Loose container:</h4>
+
+        <div class='searchContainer'>
+
+          ещё что-то...
+
           <p>
-            <button class='btn' name='firstName' value='имени.'>сортировать</button>
+            <font color='DeepSkyBlue' size='5px'>
+              <strong>&#9728;, &#9836;, &#9818;, &#36;...</strong>
+            </font>
           </p>
-        </td>
 
-        <td>
-          Last name
+        </div>
+
+      </div>
+
+      <div class='containerFilter'>
+
+        <h4>Loose container:</h4>
+
+        <div class='searchContainer'>
+
+          ещё что-то...
+
           <p>
-            <button class='btn' name='lastName' value='фамилии.'>сортировать</button>
+            <font color='DeepSkyBlue' size='5px'>
+              <strong>&#9728;, &#9836;, &#9818;, &#36;...</strong>
+            </font>
           </p>
-        </td>
 
-        <td>
-          Sex
-          <p>
-            <button class='btn' name='sex' value='полу.'>сортировать</button>
-          </p>
-        </td>
+        </div>
 
-        <td>
-          Age
-          <p>
-            <button class='btn' name='age' value='возрасту.'>сортировать</button>
-          </p>
-        </td>
+      </div>
 
-        <td>
-          Email
-          <p>
-            <button class='btn' name='email' value='email.'>сортировать</button>
-          </p>
-        </td>
+    </div>
 
-        <td>
-          Phone
-          <p>
-            <button class='btn' name='phone' value='телефону.'>сортировать</button>
-          </p>
-        </td>
+    <h4>Table:</h4>
 
-        <td>
-          Company
-          <p>
-            <button class='btn' name='company' value='компании.'>сортировать</button>
-          </p>
-        </td>
+    <div class='btnContainer'>
 
-      </tr>
+      <div style="padding-left: 10px; padding-bottom: 5px;">
+        <button class='btnSort' name='firstName'>&#8660;</button>
+      </div>
 
-    </thead>
-    <tbody id='body'>
+      <div style="padding-left: 55px">
+        <button class='btnSort' name='lastName'>&#8660;</button>
+      </div>
 
-    </tbody>
-  </table>
+      <div style="padding-left: 45px">
+        <button class='btnSort' name='sex'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 12px">
+        <button class='btnSort' name='age'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 125px">
+        <button class='btnSort' name='email'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 150px">
+        <button class='btnSort' name='phone'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 55px">
+        <button class='btnSort' name='company'>&#8660;</button>
+      </div>
+
+    </div>
+
+    <table id='table' class='tableOnly'>
+
+      <thead>
+
+        <tr class='columnNames'>
+
+          <td style="width: 94.88px">
+            First name
+          </td>
+
+          <td style="width: 92.43px">
+            Last name
+          </td>
+
+          <td style="width: 49.94px">
+            Sex
+          </td>
+
+          <td style="width: 49.94px">
+            Age
+          </td>
+
+          <td style="width: 295.14px">
+            Email
+          </td>
+
+          <td style="width: 67.14px">
+            Phone
+          </td>
+
+          <td style="width: 99.75px">
+            Company
+          </td>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id='body'>
+
+      </tbody>
+
+    </table>
+
+  </div>
 
 
   <script src="makeUpTable.js"></script>

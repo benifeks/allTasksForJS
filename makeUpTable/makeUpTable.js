@@ -1,71 +1,109 @@
-async function getDeckData() {
+let dataTable = [];
+let sortSwitch = true;
+let orderedData = {
+  keysByAge: [],
+  keysByCompany: [],
+  age: {},
+  company: {},
+};
+let btnReceiveAndComplete = document.getElementById("receiveAndComplete");
+let btnSort = document.querySelectorAll('.btnSort');
+let allSelect = document.querySelectorAll('select');
+let selectAge = document.getElementById("selectAge");
+let selectCompany = document.getElementById("selectCompany");
 
-  const promise1 = new Promise((resolve, reject) => {
-    let request = new XMLHttpRequest();
-    request.open(
-      'GET',
-      'https://api.json-generator.com/templates/AOzpFb4MT-L4/data?access_token=36t14ch1xduguysq3wvchsxb5gicbyufqugze286',
-    );
-    request.setRequestHeader('Content-type', 'application/json; charset=UTF-8');
-    request.send();
-    request.addEventListener('load', () => {
+function getDeckData() {
 
-      if (request.status === 200) {
-        let receivedData = JSON.parse(request.response);
-        resolve(receivedData);
-        return;
-      }
+  fetch('https://api.json-generator.com/templates/AOzpFb4MT-L4/data?access_token=36t14ch1xduguysq3wvchsxb5gicbyufqugze286')
 
-      document.querySelector('#body').innerHTML = 'ОШИБКА ПРИ ПОЛУЧЕНИИ ДАННЫХ...';
-      console.log('ОШИБКА ПРИ ПОЛУЧЕНИИ ДАННЫХ', request.responseText);
+    .then((response) => {
+
+      return response.json();
+
+    })
+    .then((receivedData) => {
+
+      dataTable = receivedData.map((elem, i) => {
+        return {
+
+          firstName: receivedData[i].profile.name.split(" ")[0],
+          lastName: receivedData[i].profile.name.split(" ")[1],
+          sex: ' - ',
+          age: new Date().getFullYear() - (+receivedData[i].profile.dob.split("-")[0]),
+          email: receivedData[i].email,
+          phone: ' - ',
+          company: receivedData[i].profile.company
+
+        }
+
+      });
+
+    })
+    .then(() => {
+
+      clearOrderedData();
+      allSelect.forEach(option => option[0].value = true);
+      updateDirectionArrows();
+      clearOptions();
+      blockButtons();
+
+    })
+    .then(() => {
+
+      renderTable(dataTable);
+
+      fillCollectionOfKeys(dataTable, 'age');
+      fillCollectionOfKeys(dataTable, 'company');
+
+      organizeData(dataTable, orderedData.keysByAge, 'age');
+      organizeData(dataTable, orderedData.keysByCompany, 'company');
+
+      createOptions();
+
+    })
+    .catch((error) => {
+
+      document.querySelector('#body').innerHTML = 'ОШИБКА ПРИ ОБРАБОТКЕ ДАННЫХ...';
+      console.log(error.message);
+
     });
-  });
 
-  promise1.then((receivedData) => {
-
-    let dataTable = receivedData.map((elem, i) => {
-      return {
-
-        firstName: receivedData[i].profile.name.split(" ")[0],
-        lastName: receivedData[i].profile.name.split(" ")[1],
-        sex: ' - ',
-        age: new Date().getFullYear() - (+receivedData[i].profile.dob.split("-")[0]),
-        email: receivedData[i].email,
-        phone: ' - ',
-        company: receivedData[i].profile.company
-
-      }
-
-    });
-
-    return dataTable;
-
-  }).then((dataTable) => {
-
-    table(dataTable);
-    htmlSort(`Выберите колонку для сортировки...`);
-    filterTable(dataTable);
-
-    return dataTable;
-
-  }).catch(() => {
-
-    document.querySelector('#body').innerHTML = 'ОШИБКА ПРИ ОБРАБОТКЕ ДАННЫХ...';
-    console.log('ОШИБКА ПРИ ОБРАБОТКЕ ДАННЫХ...');
-
-  }).finally(() => {
-
-    console.log('finally');
-
-  });
 }
 
-function table(arg) {
+btnReceiveAndComplete.addEventListener("click", getDeckData);
+
+
+function blockButtons() {
+
+  btnSort.forEach((button) => {
+
+    if (dataTable.length === 0) {
+
+      button.disabled = true;
+      return;
+
+    }
+
+    if (dataTable.length > 0) {
+
+      button.disabled = false;
+      return;
+
+    }
+
+  });
+
+}
+
+blockButtons();
+
+
+function renderTable(data) {
 
   let table = document.getElementById('body');
   table.textContent = '';
 
-  arg.forEach((user) => {
+  data.forEach((user) => {
 
     let tr = document.createElement('tr');
 
@@ -99,21 +137,43 @@ function table(arg) {
 
     table.append(tr);
 
-  })
+  });
 
 }
 
-function sortTableByColumn(data) {
 
-  let btnAll = document.querySelectorAll('.btn');
+function fillCollectionOfKeys(data, argumentKey) {
 
-  btnAll.forEach((button) => {
+  let arrayAllValues = data.map(element => element[argumentKey]);
+  let uniqueValues = new Set(arrayAllValues);
 
-    button.addEventListener("click", () => {
+  uniqueValues = [...uniqueValues];
 
-      sortTable(button.name, data);
+  if (argumentKey === 'age') {
 
-      htmlSort(`Сортированно по ${button.value}`)
+    orderedData.keysByAge = uniqueValues;
+
+  } else {
+
+    orderedData.keysByCompany = uniqueValues;
+
+  }
+
+}
+
+
+function organizeData(data, arrayKeys, orderedDataKey) {
+
+  arrayKeys.forEach((key) => {
+
+    orderedData[`${orderedDataKey}`][key] = [];
+    let arrayValues = orderedData[`${orderedDataKey}`][key];
+
+    data.forEach((elem) => {
+
+      if (key === elem[`${orderedDataKey}`]) {
+        arrayValues.push(elem);
+      }
 
     });
 
@@ -121,162 +181,206 @@ function sortTableByColumn(data) {
 
 }
 
-function sortTable(argument, data) {
+
+function clearOrderedData() {
+
+  orderedData.keysByAge = [];
+  orderedData.keysByCompany = [];
+  Object.keys(orderedData.age).forEach(key => delete orderedData.age[key]);
+  Object.keys(orderedData.company).forEach(key => delete orderedData.company[key]);
+
+}
+
+
+function sortTableAscending(argument, data) {
 
   let result = data.sort((a, b) => {
 
     if (a[argument] < b[argument]) {
       return -1;
+
     }
 
-  })
+  });
 
-  table(result);
+  renderTable(result);
 
 }
 
-function htmlSort(arg = '') {
 
-  let divSort = document.querySelector('#divSort');
-  divSort.textContent = '';
-  divSort.textContent = arg;
+function sortTableDescending(argument, data) {
+
+  let result = data.sort((a, b) => {
+
+    if (a[argument] > b[argument]) {
+
+      return -1;
+
+    }
+
+  });
+
+  renderTable(result);
 
 }
-///////////////////////////////////////////////////////////
 
-function createOptions(id, data, text, name = 0) {
 
-  let select = document.getElementById(`${id}`);
-  select.multiple = true;
 
-  data.forEach((element, i) => {
+function toggleSortOrder(name, data) {
 
-    let nameItem;
-    if (name === 0) {
-      nameItem = '';
-    } else {
-      nameItem = element[name];
-    }
-    let optionsSelect = document.createElement('option');
-    optionsSelect.text = `${nameItem} ${element[text]}`;
-    optionsSelect.value = JSON.stringify(element);
-    select.append(optionsSelect);
+  if (sortSwitch) {
+
+    sortSwitch = false;
+    sortTableAscending(name, data);
+    return;
+
+  }
+
+  if (!sortSwitch) {
+
+    sortSwitch = true;
+    sortTableDescending(name, data);
+    return;
+
+  }
+
+}
+
+
+function updateDirectionArrows() {
+
+  btnSort.forEach((button) => {
+
+    button.innerHTML = '';
+    button.innerHTML = `&#8660;`;
 
   });
 
 }
 
-let buttonAge = document.getElementById('buttonAge');
-let buttonCompany = document.getElementById('buttonCompany');
-let buttonUpdate = document.getElementById('buttonUpdate');
+btnSort.forEach((button) => {
 
-function filterTable(data) {
+  button.addEventListener("click", () => {
 
-  let result;
+    updateDirectionArrows();
+    toggleSortOrder(button.name, dataTable);
 
-  let collection = new Map();
+    if (sortSwitch) {
 
-  let selectAge = document.getElementById('selectAge');
-  let selectedOptionsAge = selectAge.selectedOptions;
-
-  let selectCompany = document.getElementById('selectCompany');
-  let selectedOptionsCompany = selectCompany.selectedOptions;
-
-  createOptions('selectAge', data, 'age', 'firstName');
-  createOptions('selectCompany', data, 'company');
-
-  buttonAge.onclick = function () {
-
-    result = [];
-    collection.clear();
-
-    for (let i = 0; i < selectedOptionsAge.length; i++) {
-
-      let valueOption = selectedOptionsAge[i].value;
-      if (valueOption === "age") {
-        break;
-      }
-
-      collection.set(JSON.parse(valueOption).company, JSON.parse(valueOption));
-
-    }
-
-    collection.forEach(value => result.push(value));
-
-    if (result.length === 0) {
-
+      button.innerHTML = `&#8657;`;
       return;
 
-    } else {
-
-      table(collection);
-
-      selectAge.replaceChildren();
-      selectAge.innerHTML = `<option selected disabled>age</option>`;
-
-      if (buttonCompany.disabled === false) {
-        selectCompany.replaceChildren();
-        selectCompany.innerHTML = `<option selected disabled>company</option>`;
-        createOptions('selectCompany', collection, 'company');
-      }
-
-      buttonAge.disabled = true;
-      sortTableByColumn(result);
     }
 
-  }
+    if (!sortSwitch) {
 
-  buttonCompany.onclick = function () {
-
-    result = [];
-    collection.clear();
-
-    for (let i = 0; i < selectedOptionsCompany.length; i++) {
-
-      let valueOption = selectedOptionsCompany[i].value;
-      if (valueOption === "company") {
-        break;
-      }
-
-      collection.set(JSON.parse(valueOption).company, JSON.parse(valueOption));
-
-    }
-
-    collection.forEach(value => result.push(value));
-
-    if (result.length === 0) {
-
+      button.innerHTML = `&#8659;`;
       return;
 
-    } else {
+    }
 
-      table(collection);
+  });
 
-      selectCompany.replaceChildren();
-      selectCompany.innerHTML = `<option selected disabled>company</option>`;
+});
 
-      if (buttonAge.disabled === false) {
-        selectAge.replaceChildren();
-        selectAge.innerHTML = `<option selected disabled>age</option>`;
-        createOptions('selectAge', collection, 'age', 'firstName');
-      }
 
-      buttonCompany.disabled = true;
-      sortTableByColumn(result);
+function createOptions() {
+
+  allSelect.forEach((option) => {
+
+    if (JSON.parse(option[0].value)) {
+
+      let optionArray = Array.prototype.slice.call(option);
+
+      optionArray.forEach((curentOption) => {
+
+        if (!curentOption.disabled) {
+
+          curentOption.remove();
+
+        }
+
+      });
+
+      let keys = option[0].parentNode.id === "selectAge" ? orderedData.keysByAge : orderedData.keysByCompany;
+
+      keys.forEach((element) => {
+
+        let optionsSelect = document.createElement('option');
+        optionsSelect.value = JSON.stringify(element);
+        optionsSelect.text = optionsSelect.value;
+        document.getElementById(option[0].parentNode.id).append(optionsSelect);
+
+      });
 
     }
 
-  }
-
-  buttonUpdate.onclick = function () {
-
-    buttonAge.disabled = false;
-    buttonCompany.disabled = false;
-    table(data);
-    filterTable(data);
-    sortTableByColumn(data);
-
-  }
-  sortTableByColumn(data);
+  });
 
 }
+
+
+function clearOptions() {
+
+  allSelect.forEach((option) => {
+
+    let optionArray = Array.prototype.slice.call(option);
+
+    optionArray.forEach((option) => {
+
+      if (!option.disabled) {
+
+        option.remove();
+
+      }
+
+    });
+
+  });
+
+}
+
+
+function createDataTableSelect(select) {
+
+  let selectedValues = [];
+  let optionsSelectArray = Array.prototype.slice.call(select);
+
+  allSelect.forEach(option => option[0].value = true);
+
+  optionsSelectArray.forEach((option) => {
+
+    select[0].value = false;
+
+    if (option.selected) {
+
+      selectedValues.push(orderedData[select[0].innerHTML][JSON.parse(option.value)]);
+    }
+
+  });
+
+  dataTable = selectedValues.flat();
+  renderTable(dataTable);
+
+}
+
+
+function changeOption() {
+
+  updateDirectionArrows();
+  createDataTableSelect(this.options);
+
+  orderedData.keysByAge = [];
+  orderedData.keysByCompany = [];
+
+  fillCollectionOfKeys(dataTable, 'age');
+  fillCollectionOfKeys(dataTable, 'company');
+
+  createOptions();
+
+}
+
+
+selectAge.addEventListener("change", changeOption);
+selectCompany.addEventListener("change", changeOption);
+

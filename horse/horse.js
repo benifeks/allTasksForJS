@@ -23,11 +23,11 @@ function rollTheDice() {
 
   facesCube.forEach((item) => {
 
-    item.match(result1) !== null ? diceSide1.innerHTML = item : false;
+    item.match(result1) !== null ? diceSide1.innerHTML = item : true;
 
-    item.match(result2) !== null ? diceSide2.innerHTML = item : false;
+    item.match(result2) !== null ? diceSide2.innerHTML = item : true;
 
-    item.match(result3) !== null ? diceSide3.innerHTML = item : false;
+    item.match(result3) !== null ? diceSide3.innerHTML = item : true;
 
   })
 
@@ -80,49 +80,51 @@ function Horse(name = 'Anonim') {
         mileage: this.getMileage()
       });
 
-    } else {
+      return;
 
-      let remainder = 0;
-      let kilometersBeforeRest = 0;
+    }
 
-      remainder = this.tiredness - 10;
-      kilometersBeforeRest = kilometers - remainder;
-      Horse.prototype.totalMileage = Horse.prototype.totalMileage - remainder;
-      _mileage = _mileage - remainder;
+    let remainder = 0;
+    let kilometersBeforeRest = 0;
+
+    remainder = this.tiredness - 10;
+    kilometersBeforeRest = kilometers - remainder;
+    Horse.prototype.totalMileage = Horse.prototype.totalMileage - remainder;
+    _mileage = _mileage - remainder;
+
+    playRun({
+      distance: kilometersBeforeRest,
+      amount: this.amountHorseName,
+      mileageName: this.mileageHorseName,
+      mileage: this.getMileage()
+    });
+
+    if (remainder !== 0) {
+
+      this.mileageHorseName.innerHTML = `REST 3 SECONDS...`;
+      this.mileageHorseName.style.color = 'Red';
+
+    }
+
+    setTimeout(() => {
+
+      this.mileageHorseName.style.color = 'Black';
+      this.mileageHorseName.innerHTML = this.getMileage();
+      this.tiredness = 0;
+      this.tiredness = this.tiredness + remainder;
+      Horse.prototype.totalMileage = Horse.prototype.totalMileage + remainder;
+      _mileage = _mileage + remainder;
 
       playRun({
-        distance: kilometersBeforeRest,
+        distance: remainder,
         amount: this.amountHorseName,
         mileageName: this.mileageHorseName,
         mileage: this.getMileage()
       });
 
-      if (remainder !== 0) {
+    }, 3000)
 
-        this.mileageHorseName.innerHTML = `REST 3 SECONDS...`;
-        this.mileageHorseName.style.color = 'Red';
 
-      }
-
-      setTimeout(() => {
-
-        this.mileageHorseName.style.color = 'Black';
-        this.mileageHorseName.innerHTML = this.getMileage();
-        this.tiredness = 0;
-        this.tiredness = this.tiredness + remainder;
-        Horse.prototype.totalMileage = Horse.prototype.totalMileage + remainder;
-        _mileage = _mileage + remainder;
-
-        playRun({
-          distance: remainder,
-          amount: this.amountHorseName,
-          mileageName: this.mileageHorseName,
-          mileage: this.getMileage()
-        });
-
-      }, 3000)
-
-    }
 
   };
 

@@ -17,19 +17,35 @@ function rollTheDice() {
   let side2 = Math.floor(Math.random() * 6) + 1;
   let side3 = Math.floor(Math.random() * 6) + 1;
 
-  let result1 = new RegExp(`src="img/n${side1}`, 'i');
-  let result2 = new RegExp(`src="img/n${side2}`, 'i');
-  let result3 = new RegExp(`src="img/n${side3}`, 'i');
+  diceSide1.innerHTML = facesCube[side1 - 1]
+  diceSide2.innerHTML = facesCube[side2 - 1]
+  diceSide3.innerHTML = facesCube[side3 - 1]
 
-  facesCube.forEach((item) => {
+  //--------------------
 
-    item.match(result1) !== null ? diceSide1.innerHTML = item : true;
+  // let result1 = new RegExp(`src="img/n${side1}`, 'i');
+  // let result2 = new RegExp(`src="img/n${side2}`, 'i');
+  // let result3 = new RegExp(`src="img/n${side3}`, 'i');
 
-    item.match(result2) !== null ? diceSide2.innerHTML = item : true;
+  // facesCube.forEach((item) => {
 
-    item.match(result3) !== null ? diceSide3.innerHTML = item : true;
+  //   item.match(result1) !== null ? diceSide1.innerHTML = item : true;
 
-  })
+  //   item.match(result2) !== null ? diceSide2.innerHTML = item : true;
+
+  //   item.match(result3) !== null ? diceSide3.innerHTML = item : true;
+
+  // })
+
+  //------------------------
+
+  // let cubeFacesImagePath = <img class="dice" src="img/n{number}.png" />;
+
+  // diceSide1.innerHTML = cubeFacesImagePath.replace('{number}', side1);
+  // diceSide2.innerHTML = cubeFacesImagePath.replace('{number}', side2);
+  // diceSide3.innerHTML = cubeFacesImagePath.replace('{number}', side3);
+
+  //------------------------
 
   horseAnonim.run(side1);
   horseBlack.run(side2);

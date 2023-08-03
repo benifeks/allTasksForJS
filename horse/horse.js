@@ -1,13 +1,13 @@
 function rollTheDice() {
 
-  let facesCube = {
-    1: `<img class="dice" src="img/n1.png" />`,
-    2: `<img class="dice" src="img/n2.png" />`,
-    3: `<img class="dice" src="img/n3.png" />`,
-    4: `<img class="dice" src="img/n4.png" />`,
-    5: `<img class="dice" src="img/n5.png" />`,
-    6: `<img class="dice" src="img/n6.png" />`,
-  }
+  let facesCube = [
+    `<img class="dice" src="img/n1.png" />`,
+    `<img class="dice" src="img/n2.png" />`,
+    `<img class="dice" src="img/n3.png" />`,
+    `<img class="dice" src="img/n4.png" />`,
+    `<img class="dice" src="img/n5.png" />`,
+    `<img class="dice" src="img/n6.png" />`
+  ];
 
   let diceSide1 = document.getElementById('diceSide_1');
   let diceSide2 = document.getElementById('diceSide_2');
@@ -17,9 +17,19 @@ function rollTheDice() {
   let side2 = Math.floor(Math.random() * 6) + 1;
   let side3 = Math.floor(Math.random() * 6) + 1;
 
-  diceSide1.innerHTML = facesCube[side1];
-  diceSide2.innerHTML = facesCube[side2];
-  diceSide3.innerHTML = facesCube[side3];
+  let result1 = new RegExp(`src="img/n${side1}`, 'i');
+  let result2 = new RegExp(`src="img/n${side2}`, 'i');
+  let result3 = new RegExp(`src="img/n${side3}`, 'i');
+
+  facesCube.forEach((item) => {
+
+    item.match(result1) !== null ? diceSide1.innerHTML = item : false;
+
+    item.match(result2) !== null ? diceSide2.innerHTML = item : false;
+
+    item.match(result3) !== null ? diceSide3.innerHTML = item : false;
+
+  })
 
   horseAnonim.run(side1);
   horseBlack.run(side2);
@@ -35,24 +45,15 @@ function playRun(options) {
   let mileageName = options.mileageName;
   let mileage = options.mileage;
 
-  for (let i = 1; i <= distance; i++) {
-
-    setTimeout(() => {
-
-      amount.style.marginLeft = `${+amount.style.marginLeft.slice(0, -2) + 10}px`;
-      mileageName.innerHTML = mileage - distance + i;
-      document.querySelector('.totalScore').innerHTML = Horse.prototype.totalMileage;
-
-    }, i * 300);
-
-  }
+  amount.style.marginLeft = `${+amount.style.marginLeft.slice(0, -2) + distance * 10}px`;
+  mileageName.innerHTML = mileage;
+  document.querySelector('.totalScore').innerHTML = Horse.prototype.totalMileage;
 
 }
 
 
 function Horse(name = 'Anonim') {
 
-  this.buttonHorseName = document.getElementById(`buttonHorse${name}`);
   this.mileageHorseName = document.querySelector(`.mileageHorse${name}`);
   this.amountHorseName = document.querySelector(`.amountHorse${name}`);
   this.coordinatesHorse = this.amountHorseName.getBoundingClientRect();
@@ -82,28 +83,26 @@ function Horse(name = 'Anonim') {
     } else {
 
       let remainder = 0;
+      let kilometersBeforeRest = 0;
+
       remainder = this.tiredness - 10;
-      kilometers = kilometers - remainder;
+      kilometersBeforeRest = kilometers - remainder;
       Horse.prototype.totalMileage = Horse.prototype.totalMileage - remainder;
       _mileage = _mileage - remainder;
 
       playRun({
-        distance: kilometers,
+        distance: kilometersBeforeRest,
         amount: this.amountHorseName,
         mileageName: this.mileageHorseName,
         mileage: this.getMileage()
       });
 
-      setTimeout(() => {
+      if (remainder !== 0) {
 
-        if (remainder !== 0) {
+        this.mileageHorseName.innerHTML = `REST 3 SECONDS...`;
+        this.mileageHorseName.style.color = 'Red';
 
-          this.mileageHorseName.innerHTML = `REST 3 SECONDS...`;
-          this.mileageHorseName.style.color = 'Red';
-        }
-
-
-      }, kilometers * 300);
+      }
 
       setTimeout(() => {
 

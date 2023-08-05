@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="horse.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div class='table'>
+
+
+        <div>
+            1-я часть.<br>
+            1. У созданной лошади есть свойство имя, значение можно задать при создании
+            лошади, если не передать имя лошадки - Anonim.<br>
+            2. У каждой лошади есть ПРИВАТНОЕ свойство пробег.<br>
+            3. Кроме этого у каждой лошадки есть метод бежать, который увеличивает пробег на
+            свой аргумент (каждая новая лошадь создается с нулевым пробегом (не бита, не
+            крашена, без пробега по СНГ)).<br>
+            4. Прочитать свойство пробег у лошади можно только через метод получитьПробег.<br>
+            2-я часть.<br>
+            У каждой лошади есть общее свойство - общийПробег
+            общийПробег увеличивается аналогично пробегу, но - любая лошадь, которая бежит,
+            увеличивает общийПробег у ВСЕХ лошадей.<br>
+            3-я часть.<br>
+            У лошади добавляется свойство усталость. Со старта это свойство равно 0.
+            Усталость увеличивается на 1 каждый 1 км пробега, если усталость достигает 10,
+            лошадь отдыхает 3 секунды и снова бежит, если ей осталось что бежать, после
+            отдыха усталость обнуляется.
+        </div>
+
+
+        <div class='totalMileage'>
+
+            <div>
+                Total Mileage:
+            </div>
+
+            <div class='totalScore'>
+                0
+            </div>
+
+        </div>
+
+
+        <div class='amountHorseAnonim'>
+
+            <div>
+                ANONIM
+            </div>
+
+            <div>
+                mileage:
+            </div>
+
+            <div class='mileageHorseAnonim'>
+                0
+            </div>
+
+        </div>
+
+
+        <div class='amountHorseBlack'>
+
+            <div>
+                BLACK
+            </div>
+
+            <div>
+                mileage:
+            </div>
+
+            <div class='mileageHorseBlack'>
+                0
+            </div>
+
+        </div>
+
+
+        <div class='amountHorseWhite'>
+
+            <div>
+                WHITE
+            </div>
+
+            <div>
+                mileage:
+            </div>
+
+            <div class='mileageHorseWhite'>
+                0
+            </div>
+
+        </div>
+
+
+        <div class="column">
+
+            <div id="diceSide_1"><img class="dice" src="img/n1.png" /></div>
+            <div id="diceSide_2"><img class="dice" src="img/n1.png" /></div>
+            <div id="diceSide_3"><img class="dice" src="img/n1.png" /></div>
+
+            <button class="diceRoll" onclick='rollTheDice()'>roll dice</button>
+
+        </div>
+
+
+    </div>
+
+
+    <script src="horse.js"></script>
+
+</body>
+
+</html>

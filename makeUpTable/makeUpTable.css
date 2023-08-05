@@ -1,0 +1,103 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  table,
+  td,
+  th {
+    border: 1px solid #595959;
+  }
+  
+  td,
+  th {
+    padding: 3px;
+    width: 30px;
+    height: 25px;
+  }
+  
+  th {
+    background-color: #7accee !important;
+  }
+  
+  div[boldGreenFont] {
+    color: green;
+    line-height: 16px;
+  }
+  
+  .overallContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  
+  .containerFilter {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btnSort {
+    background-color: #87CEEB;
+    width: 40px;
+    height: 30px;
+    border-radius: 3px;
+    line-height: 1px;
+    font-size: 30px;
+      text-align: center;
+      box-shadow: 2px -2px 11px 1px #242424;
+  }
+  
+  .taskBody {
+    background: radial-gradient(#FFFFFF 0%, #C1B4B4 100%);
+    padding: 10px;
+    width: 750px;
+    height: 600px;
+    border: 2px solid #000;
+  }
+  
+  .complete {
+    background-color: #87CEEB;
+    border-radius: 5px;
+    box-shadow: 2px -2px 11px 1px #242424;
+  }
+  
+  .tableOnly {
+    box-shadow: 2px 12px 43px 9px #201B1B;
+    background-color: #CCE5C5;
+  }
+  
+  .selectContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    border: 1px solid #000;
+    width: 150px;
+    box-shadow: 2px -2px 11px 1px #242424;
+    background-color: #CCE5C5;
+  }
+  
+  .selectItem {
+    flex: 1 1 auto;
+    margin: 5px 10px 5px 10px;
+  }
+  
+  .columnNames {
+    font-weight: bold;
+    text-decoration: underline solid;
+  }
+  
+  .searchContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    border: 1px solid #000;
+    width: 150px;
+    box-shadow: 2px -2px 11px 1px #242424;
+    background-color: #CCE5C5;
+  }
+  
+  .btnContainer {
+    display: flex;
+    flex-direction: row;
+  }

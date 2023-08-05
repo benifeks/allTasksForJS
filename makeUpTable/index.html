@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="makeUpTable.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div class='taskBody'>
+
+    <button id='receiveAndComplete' class='complete'>receive and complete</button><br>
+
+    <div class='overallContainer'>
+
+      <div class='containerFilter'>
+
+        <h4>Filter:</h4>
+
+        <div class='selectContainer'>
+
+          <select id='selectAge' multiple class='selectItem'>
+            <option selected disabled name='selectAge' value='true'>age</option>
+          </select>
+
+          <select id='selectCompany' multiple class='selectItem'>
+            <option selected disabled name='selectCompany' value='true'>company</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class='containerFilter'>
+
+        <h4>Search:</h4>
+
+        <div class='searchContainer' boldGreenFont>
+
+          контейнер для
+
+          <P>
+            <font color='DeepSkyBlue'>
+              <i><strong>"SEARCH"</strong></i>
+            </font>
+          </P>
+
+          или ещё чего-то...
+
+        </div>
+
+      </div>
+
+      <div class='containerFilter'>
+
+        <h4>Loose container:</h4>
+
+        <div class='searchContainer'>
+
+          ещё что-то...
+
+          <p>
+            <font color='DeepSkyBlue' size='5px'>
+              <strong>&#9728;, &#9836;, &#9818;, &#36;...</strong>
+            </font>
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class='containerFilter'>
+
+        <h4>Loose container:</h4>
+
+        <div class='searchContainer'>
+
+          ещё что-то...
+
+          <p>
+            <font color='DeepSkyBlue' size='5px'>
+              <strong>&#9728;, &#9836;, &#9818;, &#36;...</strong>
+            </font>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <h4>Table:</h4>
+
+    <div class='btnContainer'>
+
+      <div style="padding-left: 10px; padding-bottom: 5px;">
+        <button class='btnSort' name='firstName'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 55px">
+        <button class='btnSort' name='lastName'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 45px">
+        <button class='btnSort' name='sex'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 12px">
+        <button class='btnSort' name='age'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 125px">
+        <button class='btnSort' name='email'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 150px">
+        <button class='btnSort' name='phone'>&#8660;</button>
+      </div>
+
+      <div style="padding-left: 55px">
+        <button class='btnSort' name='company'>&#8660;</button>
+      </div>
+
+    </div>
+
+    <table id='table' class='tableOnly'>
+
+      <thead>
+
+        <tr class='columnNames'>
+
+          <td style="width: 94.88px">
+            First name
+          </td>
+
+          <td style="width: 92.43px">
+            Last name
+          </td>
+
+          <td style="width: 49.94px">
+            Sex
+          </td>
+
+          <td style="width: 49.94px">
+            Age
+          </td>
+
+          <td style="width: 295.14px">
+            Email
+          </td>
+
+          <td style="width: 67.14px">
+            Phone
+          </td>
+
+          <td style="width: 99.75px">
+            Company
+          </td>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id='body'>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <script src="makeUpTable.js"></script>
+</body>
+
+</html>
